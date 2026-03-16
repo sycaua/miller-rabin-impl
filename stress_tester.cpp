@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include <random>
+#include "final_deterministic_impl.h"
 #include "final_probabilistic_impl.h"
 using namespace std;
 
@@ -16,10 +16,9 @@ bool trial_division_is_prime(i128 n) {
     else if (n % 2 == 0)
         return false;
 
-    for (i128 d = 3; d * d <= n; d += 2) {
+    for (i128 d = 3; d * d <= n; d += 2)
         if (n % d == 0)
             return false;
-    }
 
     return true;
 }
@@ -39,12 +38,14 @@ int main() {
         cout << "  -> n = " << (long long) n << ln;
 
         bool trial_answer = trial_division_is_prime(n);
-        bool miller_rabin_answer = is_prime(n);
+        bool miller_rabin_det_answer = is_prime(n);
+        bool miller_rabin_prob_answer = is_prime(n);
 
         cout << "    ==> Trial division answer: " << str_repr(trial_answer) << ln;
-        cout << "    ==> Miller-Rabin answer: " << str_repr(miller_rabin_answer) << ln;
+        cout << "    ==> Miller-Rabin answer (deterministic): " << str_repr(miller_rabin_det_answer) << ln;
+        cout << "    ==> Miller-Rabin answer (probabilistic): " << str_repr(miller_rabin_prob_answer) << ln;
 
-        if (trial_answer == miller_rabin_answer)
+        if (trial_answer == miller_rabin_det_answer && trial_answer == miller_rabin_prob_answer)
             cout << "--> OK" << ln;
         else {
             cout << "// FAIL" << ln;

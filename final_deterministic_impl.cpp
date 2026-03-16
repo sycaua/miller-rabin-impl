@@ -1,71 +1,65 @@
 #include<bits/stdc++.h>
+#include "final_deterministic_impl.h"
 
 using namespace std;
-#define rep(i,a,b) for(int i = (a);i < (b);i++) 
-mt19937_64 rng((int) chrono::steady_clock::now().time_since_epoch().count());
+
 typedef long long ll;
 typedef __int128_t i128;
 
-i128 fast_mod_exponentiation(i128 n,i128 exp, i128 m) {
-    n %= m;
-    i128 resto = 1;
-    while(exp){
-        if (exp % 2)
-            resto = (resto * n) % m;
-        n = ((n % m) * (n % m)) % m;
-        exp >>= 1;
+mt19937_64 rng((int) chrono::steady_clock::now().time_since_epoch().count());
+
+i128 fast_mod_exponentiation(i128 b, i128 e, i128 m) {
+    i128 r = 1;
+
+    b %= m;
+    while (e){
+        if (e & 1)
+            r = (r * b) % m;
+
+        b = ((b % m) * (b % m)) % m;
+        e >>= 1;
     }
-    return resto;
+
+    return r;
 }
 
-bool is_composite(i128 num, i128 base, i128 odd_power, i128 s){
-    i128 rest = fast_mod_exponentiation(base,odd_power,num);
+bool is_composite(i128 n, i128 b, i128 e, i128 s){
+    i128 r = fast_mod_exponentiation(b, e, n);
 
-    if (rest == 1 || rest == num-1)
+    if (r == 1 || r == n - 1)
         return false;
 
-    for (int r =1; r  < s;r++){
-        rest = ((rest) % num * (rest) % num % num);
-        if (rest == num-1){
+    for (ll c = 1; c < s; c++) {
+        r = ((r % n) * (r % n)) % n;
+
+        if (r == n - 1)
             return false;
-        }
     }
 
     return true;
 }
 
 
-int miller_rabin(i128 n) {
-    i128 d = n - 1,s = 0;
+bool is_prime(i128 n) {
+    if (n <= 1)
+        return false;
+    else if (n == 2 || n == 3)
+        return true;
+    else if (!(n & 1))
+        return false;
 
-    if(n > 1e9) {
-        return -1;
-    }
+    i128 d, s;
 
-    if(n == 2 || n == 3) return true;
-
-    while(d % 2 == 0) {
-        d /= 2;
+    d = n - 1;
+    s = 0;
+    while (!(d & 1)) {
+        d >>= 1;
         s++;
     }
 
-    for(int a :  {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
-        if(is_composite(n,a,d,s)) {
-            return 0;
-        }
-    }
+    for (ll a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022})
+        if (is_composite(n, a, d, s))
+            return false;
 
-    return 1;
-}
-
-
-
-int main() {
-    ll n;cin >> n;
-
-    int res = miller_rabin(n);
-
-    if(res == -1) cout << "To large" << endl;
-    else if(res == 0) cout << "Is not prime" << endl;;
-    else cout << "Is prime" << endl;
+    return true;
 }
