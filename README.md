@@ -2,7 +2,7 @@
 
 This repository contains two implementations of the Miller-Rabin primality test: one that is deterministic for non-negative integers up to 2⁶⁴ (by using witness bases), and another that is probabilistic (uses random bases).
 
-The complexity of both versions is ~𝑂(log𝑁). The probabilistic version guarantees 4⁻¹⁰⁰ = (2)⁻²⁰⁰ chance of error (100 iterations).
+The complexity of both versions is ~𝘖(𝗅𝗈𝗀 𝘕). The probabilistic version guarantees (4)⁻¹⁰⁰ = (2)⁻²⁰⁰ chance of error (100 iterations).
 
 ## References
 
