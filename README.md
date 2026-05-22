@@ -1,6 +1,6 @@
 # Implementation code of the Miller-Rabin primality test
 
-This repository contains two implementations of the Miller-Rabin primality test: one that is deterministic for non-negative integers up to $2^64$ (by using witness bases), and another that is probabilistic (uses random bases).
+This repository contains two implementations of the Miller-Rabin primality test: one that is deterministic for non-negative integers up to $2^{64}$ (by using witness bases), and another that is probabilistic (uses random bases).
 
 The complexity of both versions is $\sim O(\log n)$. The probabilistic version guarantees $4^{-100}=2^{-200}$ chance of error (one hundred iterations).
 
